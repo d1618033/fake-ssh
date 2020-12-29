@@ -1,4 +1,4 @@
-FOLDER = fake_ssh
+FOLDER = fake_ssh tests
 
 .PHONY: format do_format lint test check
 
@@ -10,8 +10,8 @@ do_format:
 	poetry run black ${FOLDER}
 
 lint:
-	poetry run flake8 ${FOLDER}
-	poetry run pylint ${FOLDER}
+	poetry run flake8 fake_ssh
+	poetry run pylint fake_ssh 
 
 test:
 	poetry run pytest -s -vvv tests
