@@ -58,7 +58,6 @@ class Server:
         selector = selectors.DefaultSelector()
         selector.register(sock, selectors.EVENT_READ)
         while sock.fileno() > 0:
-            _logger.debug("Waiting for incoming connections ...")
             events = selector.select(timeout=1.0)
             if not events:
                 continue
