@@ -94,8 +94,8 @@ def server():
 def my_ls(host, port):
     c = paramiko.SSHClient()
     c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    c.connect(hostname=server.host,
-              port=server.port,
+    c.connect(hostname=host,
+              port=port,
               username="root",
               password="",
               allow_agent=False,
