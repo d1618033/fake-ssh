@@ -1,6 +1,6 @@
 import functools
 from dataclasses import dataclass, field
-from typing import Callable, Union, Optional
+from typing import Callable, Optional, Union
 
 
 @dataclass

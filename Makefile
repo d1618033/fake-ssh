@@ -14,6 +14,6 @@ lint:
 	poetry run pylint ${FOLDER}
 
 test:
-	poetry run pytest tests
+	poetry run pytest -s -vvv tests
 
 check: format lint test

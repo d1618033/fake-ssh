@@ -63,6 +63,10 @@ file2
 
 (if you are prompted for a password, you can leave it blank)
 
+Note how you need to specify a non standard port (5050). Using the standard port (22) would require root permissions
+and is probably unsafe.
+
+
 ## Non-Blocking Server
 
 A non blocking server is often used in tests. 
@@ -87,8 +91,7 @@ def server():
         yield server
 
 
-@pytest.fixture
-def client(server):
+def my_ls(host, port):
     c = paramiko.SSHClient()
     c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     c.connect(hostname=server.host,
@@ -97,11 +100,10 @@ def client(server):
               password="",
               allow_agent=False,
               look_for_keys=False)
-    return c
+    return c.exec_command("ls")[1].read().decode().splitlines()
 
 
-def test_ls(client):
-    _stdin, stdout, stderr = client.exec_command("ls")
-    assert stdout.read().decode() == "file1\nfile2\n"
+def test_ls(server):
+    assert my_ls(server.host, server.port) == ["file1", "file2"]
 
 ```

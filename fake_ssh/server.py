@@ -2,7 +2,7 @@ import errno
 import selectors
 import socket
 import threading
-from contextlib import suppress
+from .utils import suppress
 from typing import Any, Optional, Tuple
 
 import logbook
@@ -78,9 +78,11 @@ class Server:
         self.close()
 
     def close(self) -> None:
+        _logger.debug("closing...")
         if self._socket:
             with suppress(Exception):
                 self._socket.shutdown(socket.SHUT_RDWR)
+            with suppress(Exception):
                 self._socket.close()
             self._socket = None
         if self._thread is not None:
