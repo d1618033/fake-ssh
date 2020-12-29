@@ -2,7 +2,6 @@ import errno
 import selectors
 import socket
 import threading
-from .utils import suppress
 from typing import Any, Optional, Tuple
 
 import logbook
@@ -13,6 +12,7 @@ from .command import (
     command_handler_wrapper,
 )
 from .connection_handler import ConnectionHandler
+from .utils import suppress
 
 _logger = logbook.Logger(__name__)
 

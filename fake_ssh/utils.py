@@ -1,6 +1,6 @@
 import contextlib
-import logbook
 
+import logbook
 
 logger = logbook.Logger(__name__)
 
