@@ -15,7 +15,7 @@ CommandHandler = Callable[[str], CommandHandlerResult]
 CommandHandlerWrapped = Callable[[str], CommandResult]
 
 
-class CommandFailure(BaseException):
+class CommandFailure(Exception):
     def __init__(self, stderr, returncode=1):
         self.stderr = stderr
         self.returncode = returncode
