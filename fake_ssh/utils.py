@@ -6,7 +6,7 @@ logger = logbook.Logger(__name__)
 
 
 @contextlib.contextmanager
-def suppress(exception: BaseException):
+def suppress(exception: Exception):
     try:
         yield
     except exception as ex:
