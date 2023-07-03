@@ -1,11 +1,10 @@
+import logbook
 import os
+import paramiko
 import socket
 import threading
 from queue import Queue
 from typing import Dict, Optional
-
-import logbook
-import paramiko
 
 from .command import CommandHandler
 
@@ -16,7 +15,7 @@ _logger = logbook.Logger(__name__)
 
 class ConnectionHandler(paramiko.ServerInterface):
     def __init__(
-        self, client_conn: socket.SocketIO, command_handler: CommandHandler
+            self, client_conn: socket.SocketIO, command_handler: CommandHandler
     ):
         self._command_handler: CommandHandler = command_handler
         self.thread: Optional[threading.Thread] = None
@@ -61,9 +60,7 @@ class ConnectionHandler(paramiko.ServerInterface):
     def check_auth_password(self, username: str, password: str) -> int:
         return paramiko.AUTH_SUCCESSFUL
 
-    def check_channel_exec_request(
-        self, channel: paramiko.Channel, command: bytes
-    ) -> bool:
+    def check_channel_exec_request(self, channel: paramiko.Channel, command: bytes) -> bool:
         self.command_queues.setdefault(channel.get_id(), Queue()).put(command)
         return True
 
