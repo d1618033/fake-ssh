@@ -1,13 +1,13 @@
 [tool.poetry]
-name = "fake-ssh"
+name = "fakessh"
 version = "0.1.0"
 description = "Fakes an SSH Server"
-authors = ["David Sternlicht <dsternlicht@infinidat.com>"]
-include = ["fake_ssh/server_key"]
+authors = ["BoPo Wang <ibopo@126.com>"]
+include = ["fakessh/server_key"]
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/d1618033/fake-ssh.git"
-homepage = "https://github.com/d1618033/fake-ssh.git"
+repository = "https://github.com/bopo/fakessh.git"
+homepage = "https://github.com/bopo/fakessh.git"
 keywords = [
     "SSH",
     "Server",
@@ -17,7 +17,7 @@ keywords = [
 ]
 
 [tool.poetry.scripts]
-echo_server = "fake_ssh.demo.echo_server:main"
+echo_server = "fakessh.echo_server:main"
 
 [tool.poetry.dependencies]
 python = "^3.7"
