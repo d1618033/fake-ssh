@@ -66,8 +66,8 @@ def mock_streams(which):
         def inner_wrapper(*args, **kwargs):
             if both:
                 sys.stdall = StringIO()
-                fake_stdout = CarbonCopy(cc=sys.stdall)
-                fake_stderr = CarbonCopy(cc=sys.stdall)
+                fake_stdout = CarbonCopy(cc=sys.stdall)  # noqa
+                fake_stderr = CarbonCopy(cc=sys.stdall)  # noqa
             else:
                 fake_stdout, fake_stderr = StringIO(), StringIO()
 

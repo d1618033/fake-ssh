@@ -725,9 +725,9 @@ class DatagramRequestHandler(BaseRequestHandler):
         except ImportError:
             from io import StringIO
 
-        self.packet, self.socket = self.request
-        self.rfile = StringIO(self.packet)
-        self.wfile = StringIO()
+        self.packet, self.socket = self.request  # noqa
+        self.rfile = StringIO(self.packet)  # noqa
+        self.wfile = StringIO()  # noqa
 
     def finish(self):
         self.socket.sendto(self.wfile.getvalue(), self.client_address)

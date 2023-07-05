@@ -46,4 +46,4 @@ def test_command_handler_wrapper_failure(exception, expected_command_result_wrap
 
 def test_command_handler_illegal_output():
     with pytest.raises(TypeError):
-        command_handler_wrapper(lambda command: object())('')
+        command_handler_wrapper(lambda command: object())('') # noqa

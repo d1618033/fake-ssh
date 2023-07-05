@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 from paramiko.sftp_client import SFTPClient
-from pytest import fixture, mark, raises
+from pytest import raises
 
 
 def files_equal(fname1: str, fname2: str) -> bool:
@@ -15,7 +15,6 @@ def files_equal(fname1: str, fname2: str) -> bool:
 
 
 def test_put(sftp_client: SFTPClient, tmpdir):
-
     target_name = str(tmpdir.join("foo"))
     print(target_name)
 
@@ -142,7 +141,7 @@ def test_rename(sftp_client: SFTPClient, tmpdir):
     assert not os.path.exists(test_file)
 
 
-@fixture(params=[
+@pytest.fixture(params=[
     ("truncate", "/etc/passwd", 0),
     ("utime", "/", (0, 0)),
     ("listdir_attr", "/"),

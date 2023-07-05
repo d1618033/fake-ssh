@@ -155,7 +155,7 @@ class SSHServer(ThreadingMixIn, TCPServer):
         hostname, port = addr_tup
         addr_info = socket.getaddrinfo(hostname, port, socket.AF_UNSPEC, socket.SOCK_STREAM)
 
-        for (family, socktype, proto, canonname, sockaddr) in addr_info:
+        for (family, socktype, proto, canonname, sockaddr) in addr_info:  # noqa
             if socktype == socket.SOCK_STREAM:
                 af = family
                 addr = sockaddr
@@ -188,7 +188,7 @@ class FakeSFTPHandle(ssh.SFTPHandle):
         super().__init__(flags)
         self.readfile = None
 
-    def chattr(self, attr):
+    def chattr(self, attr):  # noqa
         self.readfile.attributes = attr
         return ssh.sftp.SFTP_OK
 
@@ -264,6 +264,7 @@ def canonicalize(path, home):
 class FakeSFTPServer(ssh.SFTPServerInterface):
     def __init__(self, server, *args, **kwargs):
         super().__init__(server, *args, **kwargs)
+
         self.server = server
         files = self.server.files  # noqa
 
@@ -277,7 +278,7 @@ class FakeSFTPServer(ssh.SFTPServerInterface):
         """
         Make non-absolute paths relative to $HOME.
         """
-        return canonicalize(path, self.server.home) # noqa
+        return canonicalize(path, self.server.home)  # noqa
 
     def list_folder(self, path):
         path = self.files.normalize(path)

@@ -48,7 +48,6 @@ class FakeFile(StringIO):
 
     def __cmp__(self, other):
         me = str(self) if isinstance(other, str) else self
-
         return cmp(me, other)
 
 
@@ -65,7 +64,7 @@ class FakeFilesystem(dict):
         if isinstance(value, str) or value is None:
             value = FakeFile(value, key)
 
-        super(FakeFilesystem, self).__setitem__(key, value)
+        super().__setitem__(key, value)
 
     @staticmethod
     def normalize(path):
@@ -83,4 +82,4 @@ class FakeFilesystem(dict):
         return path
 
     def __getitem__(self, key):
-        return super(FakeFilesystem, self).__getitem__(self.normalize(key))
+        return super().__getitem__(self.normalize(key))
