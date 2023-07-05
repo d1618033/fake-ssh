@@ -1,8 +1,8 @@
 import pytest
 
-from fake_ssh.command import CommandFailure
-from fake_ssh.command import CommandResult
-from fake_ssh.command import command_handler_wrapper
+from fakessh.command import CommandFailure
+from fakessh.command import CommandResult
+from fakessh.command import command_handler_wrapper
 
 
 @pytest.mark.parametrize(

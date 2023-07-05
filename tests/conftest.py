@@ -6,8 +6,8 @@ import pytest
 from logbook import StreamHandler
 from paramiko.sftp_client import SFTPClient
 
-from fake_ssh import CommandFailure
-from fake_ssh import Server
+from fakessh import CommandFailure
+from fakessh import Server
 
 
 @pytest.fixture(scope="session")
