@@ -11,7 +11,7 @@ class CarbonCopy(StringIO):
     A StringIO capable of multiplexing its writes to other buffer objects.
     """
 
-    def __init__(self, buffer='', cc=None):
+    def __init__(self, buffer="", cc=None):
         """
         If ``cc`` is given and is a file-like object or an iterable of same,
         it/they will be written to whenever this StringIO instance is written
@@ -22,7 +22,7 @@ class CarbonCopy(StringIO):
         if cc is None:
             cc = []
 
-        if hasattr(cc, 'write'):
+        if hasattr(cc, "write"):
             cc = [cc]
 
         self.cc = cc
@@ -57,9 +57,9 @@ def mock_streams(which):
     at ``sys.stdall``. This StringIO will resemble what a user sees at a
     terminal, i.e. both streams intermingled.
     """
-    both = (which == 'both')
-    stdout = (which == 'stdout') or both
-    stderr = (which == 'stderr') or both
+    both = which == "both"
+    stdout = (which == "stdout") or both
+    stderr = (which == "stderr") or both
 
     def mocked_streams_decorator(func):
         @wraps(func)

@@ -5,12 +5,15 @@ from typing import Callable
 
 import paramiko
 
-__all__ = ["SFTPServer", ]
+__all__ = [
+    "SFTPServer",
+]
 
 LOG = logging.getLogger(__name__)
 
 
 # https://docs.paramiko.org/en/stable/api/sftp.html
+
 
 class SFTPHandle(paramiko.SFTPHandle):
     log = logging.getLogger(__name__)
@@ -37,7 +40,7 @@ def returns_sftp_error(func: Callable) -> Callable:
         try:
             return func(*args, **kwargs)
         except OSError as err:
-            LOG.debug('Error calling %s(%s, %s): %s', func, args, kwargs, err, exc_info=True)
+            LOG.debug("Error calling %s(%s, %s): %s", func, args, kwargs, err, exc_info=True)
             errno = err.errno
 
             if errno in {EACCES, EDQUOT, EPERM, EROFS}:
@@ -113,7 +116,7 @@ class SFTPServerInterface(paramiko.SFTPServerInterface):
 
     @returns_sftp_error
     def mkdir(self, path, attrs):
-        mode = getattr(attrs, 'st_mode', 0o777)
+        mode = getattr(attrs, "st_mode", 0o777)
 
         try:
             os.mkdir(path, mode)
@@ -175,7 +178,6 @@ class SFTPServerInterface(paramiko.SFTPServerInterface):
 
 
 class SFTPServer(paramiko.SFTPServer):
-
     def __init__(self, channel, name, server, sftp_si=SFTPServerInterface, *largs, **kwargs):
         # kwargs["sftp_si"] = SFTPServerInterface
         super().__init__(channel, name, server, sftp_si=sftp_si, *largs, **kwargs)

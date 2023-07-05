@@ -10,16 +10,16 @@ from fake_ssh import CommandFailure
 from fake_ssh import Server
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def server():
     def handler(command: str) -> str:
-        if command == 'ls':
-            return 'file1\nfile2'
+        if command == "ls":
+            return "file1\nfile2"
 
-        if command.startswith('echo'):
+        if command.startswith("echo"):
             return command[4:].strip()
 
-        raise CommandFailure(f'Unknown command {command}')
+        raise CommandFailure(f"Unknown command {command}")
 
     StreamHandler(sys.stdout).push_application()
     with Server(command_handler=handler) as server:
@@ -33,11 +33,11 @@ def sftp_client(server) -> Iterator[SFTPClient]:
     kwargs = dict(
         hostname=server.host,
         port=server.port,
-        username='root',
+        username="root",
         allow_agent=False,
         look_for_keys=False,
     )
-    kwargs['password'] = 'password'
+    kwargs["password"] = "password"
 
     c.connect(**kwargs)
     yield c.open_sftp()

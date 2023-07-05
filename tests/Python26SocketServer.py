@@ -125,7 +125,7 @@ BaseServer:
 # standard regression test.
 # To run it manually, run Lib/test/test_socketserver.py.
 
-__version__ = '0.4'
+__version__ = "0.4"
 
 import os
 import select
@@ -133,15 +133,22 @@ import socket
 import sys
 import threading
 
-__all__ = ['TCPServer', 'UDPServer', 'ForkingUDPServer', 'ForkingTCPServer',
-           'ThreadingUDPServer', 'ThreadingTCPServer', 'BaseRequestHandler',
-           'StreamRequestHandler', 'DatagramRequestHandler',
-           'ThreadingMixIn', 'ForkingMixIn']
+__all__ = [
+    "TCPServer",
+    "UDPServer",
+    "ForkingUDPServer",
+    "ForkingTCPServer",
+    "ThreadingUDPServer",
+    "ThreadingTCPServer",
+    "BaseRequestHandler",
+    "StreamRequestHandler",
+    "DatagramRequestHandler",
+    "ThreadingMixIn",
+    "ForkingMixIn",
+]
 
-if hasattr(socket, 'AF_UNIX'):
-    __all__.extend(['UnixStreamServer', 'UnixDatagramServer',
-                    'ThreadingUnixStreamServer',
-                    'ThreadingUnixDatagramServer'])
+if hasattr(socket, "AF_UNIX"):
+    __all__.extend(["UnixStreamServer", "UnixDatagramServer", "ThreadingUnixStreamServer", "ThreadingUnixDatagramServer"])
 
 
 class BaseServer:
@@ -334,13 +341,14 @@ class BaseServer:
         The default is to print a traceback and continue.
 
         """
-        print('-' * 40)
-        print('Exception happened during processing of request from %s' % (client_address,))
+        print("-" * 40)
+        print("Exception happened during processing of request from %s" % (client_address,))
 
         import traceback
+
         traceback.print_exc()  # XXX But this goes to stderr!
 
-        print('-' * 40)
+        print("-" * 40)
 
     def get_request(self):
         pass
@@ -523,7 +531,7 @@ class ForkingMixIn:
             try:
                 self.active_children.remove(pid)
             except ValueError as e:
-                raise ValueError(f'{e.message}. x={pid:d} and list={self.active_children!r}')  # noqa
+                raise ValueError(f"{e.message}. x={pid:d} and list={self.active_children!r}")  # noqa
 
     def handle_timeout(self):
         """Wait for zombies after self.timeout seconds of inactivity.
@@ -622,18 +630,16 @@ class ThreadingTCPServer(ThreadingMixIn, TCPServer):
     pass
 
 
-if hasattr(socket, 'AF_UNIX'):
+if hasattr(socket, "AF_UNIX"):
+
     class UnixStreamServer(TCPServer):
         address_family = socket.AF_UNIX
-
 
     class UnixDatagramServer(UDPServer):
         address_family = socket.AF_UNIX
 
-
     class ThreadingUnixStreamServer(ThreadingMixIn, UnixStreamServer):
         pass
-
 
     class ThreadingUnixDatagramServer(ThreadingMixIn, UnixDatagramServer):
         pass
@@ -702,8 +708,8 @@ class StreamRequestHandler(BaseRequestHandler):
     def setup(self):
         self.connection = self.request  # noqa
 
-        self.rfile = self.connection.makefile('rb', self.rbufsize)  # noqa
-        self.wfile = self.connection.makefile('wb', self.wbufsize)  # noqa
+        self.rfile = self.connection.makefile("rb", self.rbufsize)  # noqa
+        self.wfile = self.connection.makefile("wb", self.wbufsize)  # noqa
 
     def finish(self):
         if not self.wfile.closed:

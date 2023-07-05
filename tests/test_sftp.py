@@ -56,8 +56,8 @@ def test_lstat(sftp_client: SFTPClient, tmpdir):
 
 
 def test_listdir(sftp_client: SFTPClient, tmpdir):
-    Path(tmpdir.join('foo')).write_text('foo')
-    Path(tmpdir.join('bar')).write_text('bar')
+    Path(tmpdir.join("foo")).write_text("foo")
+    Path(tmpdir.join("bar")).write_text("bar")
 
     dir_contents = sftp_client.listdir(str(tmpdir))
     assert sorted(dir_contents) == ["bar", "foo"]
@@ -93,7 +93,7 @@ def test_mkdir(sftp_client: SFTPClient, tmpdir):
 def test_rmdir(sftp_client: SFTPClient, tmpdir):
     # target_dir = tmpdir.join("foo")
     # os.makedirs(target_dir)
-    target_dir = tmpdir.mkdir('foo')
+    target_dir = tmpdir.mkdir("foo")
     sftp_client.rmdir(str(target_dir))
 
     assert not os.path.exists(target_dir)
@@ -141,12 +141,14 @@ def test_rename(sftp_client: SFTPClient, tmpdir):
     assert not os.path.exists(test_file)
 
 
-@pytest.fixture(params=[
-    ("truncate", "/etc/passwd", 0),
-    ("utime", "/", (0, 0)),
-    ("listdir_attr", "/"),
-    ("readlink", "/etc"),
-])
+@pytest.fixture(
+    params=[
+        ("truncate", "/etc/passwd", 0),
+        ("utime", "/", (0, 0)),
+        ("listdir_attr", "/"),
+        ("readlink", "/etc"),
+    ]
+)
 def unsupported_call(request):
     return request.param
 

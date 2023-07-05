@@ -8,4 +8,4 @@ def suppress(exception: Exception):
     try:
         yield
     except exception as ex:
-        logger.debug(f'Caught exception: {ex}')
+        logger.debug(f"Caught exception: {ex}")

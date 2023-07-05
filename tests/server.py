@@ -15,20 +15,20 @@ from fake_filesystem import FakeFilesystem
 #
 # Debugging
 #
-logging.basicConfig(filename='/tmp/fab.log', level=logging.DEBUG)
-logger = logging.getLogger('server.py')
+logging.basicConfig(filename="/tmp/fab.log", level=logging.DEBUG)
+logger = logging.getLogger("server.py")
 
 #
 # Constants
 #
 
-HOST = '127.0.0.1'
+HOST = "127.0.0.1"
 PORT = 2200
-USER = 'username'
-HOME = '/'
+USER = "username"
+HOME = "/"
 RESPONSES = {
-    'ls /simple': 'some output',
-    'ls /': """AUTHORS
+    "ls /simple": "some output",
+    "ls /": """AUTHORS
 FAQ
 Fabric.egg-info
 INSTALL
@@ -43,36 +43,32 @@ fabric
 requirements.txt
 setup.py
 tests""",
-    'both_streams': [
-        'stdout',
-        'stderr'
-    ],
+    "both_streams": ["stdout", "stderr"],
 }
-FILES = FakeFilesystem({
-    '/file.txt': 'contents',
-    '/file2.txt': 'contents2',
-    '/folder/file3.txt': 'contents3',
-    '/empty_folder': None,
-    '/tree/file1.txt': 'x',
-    '/tree/file2.txt': 'y',
-    '/tree/subfolder/file3.txt': 'z',
-    '/etc/apache2/apache2.conf': 'Include other.conf',
-    HOME: None  # So $HOME is a directory
-})
-PASSWORDS = {
-    'root': 'root',
-    USER: 'password'
-}
+FILES = FakeFilesystem(
+    {
+        "/file.txt": "contents",
+        "/file2.txt": "contents2",
+        "/folder/file3.txt": "contents3",
+        "/empty_folder": None,
+        "/tree/file1.txt": "x",
+        "/tree/file2.txt": "y",
+        "/tree/subfolder/file3.txt": "z",
+        "/etc/apache2/apache2.conf": "Include other.conf",
+        HOME: None,  # So $HOME is a directory
+    }
+)
+PASSWORDS = {"root": "root", USER: "password"}
 
 
 def _local_file(filename):
     return os.path.join(os.path.dirname(__file__), filename)
 
 
-SERVER_PRIVKEY = _local_file('private.key')
-CLIENT_PUBKEY = _local_file('client.key.pub')
-CLIENT_PRIVKEY = _local_file('client.key')
-CLIENT_PRIVKEY_PASSPHRASE = 'passphrase'
+SERVER_PRIVKEY = _local_file("private.key")
+CLIENT_PUBKEY = _local_file("client.key.pub")
+CLIENT_PRIVKEY = _local_file("client.key")
+CLIENT_PRIVKEY_PASSPHRASE = "passphrase"
 
 
 def _equalize(lists, fillval=None):
@@ -109,7 +105,7 @@ class TestServer(ssh.ServerInterface):
         self.command = None
 
     def check_channel_request(self, kind, chanid):
-        if kind == 'session':
+        if kind == "session":
             return ssh.common.OPEN_SUCCEEDED
         return ssh.common.OPEN_FAILED_ADMINISTRATIVELY_PROHIBITED
 
@@ -135,7 +131,7 @@ class TestServer(ssh.ServerInterface):
         return ssh.common.AUTH_SUCCESSFUL if self.pubkeys else ssh.common.AUTH_FAILED
 
     def get_allowed_auths(self, username):
-        return 'password,publickey'
+        return "password,publickey"
 
 
 class SSHServer(ThreadingMixIn, TCPServer):
@@ -155,7 +151,7 @@ class SSHServer(ThreadingMixIn, TCPServer):
         hostname, port = addr_tup
         addr_info = socket.getaddrinfo(hostname, port, socket.AF_UNSPEC, socket.SOCK_STREAM)
 
-        for (family, socktype, proto, canonname, sockaddr) in addr_info:  # noqa
+        for family, socktype, proto, canonname, sockaddr in addr_info:  # noqa
             if socktype == socket.SOCK_STREAM:
                 af = family
                 addr = sockaddr
@@ -207,7 +203,7 @@ def expand(path):
     'relative/path' => ('relative', 'path')
     """
     # Base case
-    if path in ['', os.path.sep]:
+    if path in ["", os.path.sep]:
         return [path]
 
     ret = PrependList()
@@ -219,7 +215,7 @@ def expand(path):
 
     ret.prepend(filename)
     # Handle absolute vs relative paths
-    ret.prepend(directory if directory == os.path.sep else '')
+    ret.prepend(directory if directory == os.path.sep else "")
 
     return ret
 
@@ -229,7 +225,7 @@ def contains(folder, path):
     contains(('a', 'b', 'c'), ('a', 'b')) => True
     contains('a', 'b', 'c'), ('f',)) => False
     """
-    return False if len(path) >= len(folder) else folder[:len(path)] == path
+    return False if len(path) >= len(folder) else folder[: len(path)] == path
 
 
 def missing_folders(paths):
@@ -243,7 +239,7 @@ def missing_folders(paths):
         expanded = expand(path)
 
         for i in range(len(expanded)):
-            folder = os.path.join(*expanded[:len(expanded) - i])
+            folder = os.path.join(*expanded[: len(expanded) - i])
 
             if folder and folder not in pool:
                 pool.add(folder)
@@ -290,7 +286,7 @@ class FakeSFTPServer(ssh.SFTPServerInterface):
         children = []
 
         for candidate in candidates:
-            cut = candidate[:len(expanded_path) + 1]
+            cut = candidate[: len(expanded_path) + 1]
 
             if cut not in children:
                 children.append(cut)
@@ -311,7 +307,7 @@ class FakeSFTPServer(ssh.SFTPServerInterface):
                 if os.path.dirname(path) not in self.files:
                     return ssh.sftp.SFTP_NO_SUCH_FILE
 
-                self.files[path] = fobj = FakeFile('', path)
+                self.files[path] = fobj = FakeFile("", path)
             # No write flag means a read, which means they tried to read a
             # nonexistent file.
             else:
@@ -344,8 +340,8 @@ class FakeSFTPServer(ssh.SFTPServerInterface):
         # Attempt to gracefully update instead of overwrite, since things like
         # chmod will call us with an SFTPAttributes object that only exhibits
         # e.g. st_mode, and we don't want to lose our filename or size...
-        for which in 'size uid gid mode atime mtime'.split():
-            attname = 'st_' + which
+        for which in "size uid gid mode atime mtime".split():
+            attname = "st_" + which
             incoming = getattr(attr, attname)
 
             if incoming is not None:
