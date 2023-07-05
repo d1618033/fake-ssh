@@ -7,6 +7,7 @@ import pytest
 def create_client(server, password='', ssh_key_file=None):
     c = paramiko.SSHClient()
     c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
     kwargs = dict(
         hostname=server.host,
         port=server.port,
@@ -14,6 +15,7 @@ def create_client(server, password='', ssh_key_file=None):
         allow_agent=False,
         look_for_keys=False,
     )
+
     if ssh_key_file is not None:
         with open(ssh_key_file) as f:
             kwargs['pkey'] = paramiko.RSAKey.from_private_key(f)
