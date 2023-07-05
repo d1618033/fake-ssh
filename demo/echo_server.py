@@ -2,7 +2,7 @@ import sys
 
 from logbook import StreamHandler
 
-from ..server import Server
+from fake_ssh.server import Server
 
 
 def main():
@@ -10,5 +10,5 @@ def main():
     Server(command_handler=lambda c: c, port=5050).run_blocking()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

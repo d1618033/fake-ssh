@@ -1,12 +1,15 @@
 import functools
-from dataclasses import dataclass, field
-from typing import Callable, Optional, Union
+from dataclasses import dataclass
+from dataclasses import field
+from typing import Callable
+from typing import Optional
+from typing import Union
 
 
 @dataclass
 class CommandResult:
-    stdout: str = field(default="")
-    stderr: str = field(default="")
+    stdout: str = field(default='')
+    stderr: str = field(default='')
     returncode: int = field(default=0)
 
 
@@ -41,6 +44,6 @@ def command_handler_wrapper(func: Callable[[str], Union[str, CommandResult]]) ->
         if isinstance(result, str):
             return CommandResult(stdout=result)
 
-        raise TypeError(f"Unknown type for result: {result}, type: {type(result)}")
+        raise TypeError(f'Unknown type for result: {result}, type: {type(result)}')
 
     return wrapped

@@ -31,6 +31,11 @@ build-backend = "poetry.core.masonry.api"
 [tool.black]
 line-length = 79
 
+[tool.pytest.ini_options]
+testpaths = "tests"
+addopts = "--strict-markers -p no:warnings"
+markers = 'fails_on_windows: This test is known to fail on win32 systems.'
+
 [tool.pylint."MESSAGES CONTROL"]
 disable="""
     missing-module-docstring,

@@ -11,7 +11,7 @@ do_format:
 
 lint:
 	poetry run flake8 fake_ssh
-	poetry run pylint fake_ssh 
+	poetry run pylint fake_ssh
 
 test:
 	poetry run pytest -s -vvv tests

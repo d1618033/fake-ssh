@@ -1,26 +1,33 @@
 import errno
-import logbook
 import selectors
 import socket
 import threading
-from typing import Any, Optional, Tuple
+from typing import Any
+from typing import Optional
+from typing import Tuple
 
-from .command import (CommandHandler, CommandHandlerWrapped, command_handler_wrapper)
+from loguru import logger
+
+from .command import CommandHandler
+from .command import CommandHandlerWrapped
+from .command import command_handler_wrapper
 from .connection_handler import ConnectionHandler
 from .utils import suppress
 
-_logger = logbook.Logger(__name__)
+_logger = logger
 
 
 class Server:
-    def __init__(self, command_handler: CommandHandler, host: str = "127.0.0.1", port: int = 0):
+    def __init__(self, command_handler: CommandHandler, host: str = '127.0.0.1', port: int = 0):
         self._socket: Optional[socket.SocketIO] = None
         self._thread: Optional[threading.Thread] = None
+
         self.host: str = host
         self._port: int = port
+
         self._command_handler: CommandHandlerWrapped = command_handler_wrapper(command_handler)
 
-    def __enter__(self) -> "Server":
+    def __enter__(self) -> 'Server':
         self.run_non_blocking()
         return self
 
@@ -35,7 +42,7 @@ class Server:
         self._socket.bind((self.host, self._port))
         self._socket.listen(5)
 
-        _logger.info(f"Starting ssh server on {self.host}:{self.port}")
+        _logger.info(f'Starting ssh server on {self.host}:{self.port}')
 
     def run_blocking(self) -> None:
         self._create_socket()
@@ -62,7 +69,7 @@ class Server:
 
                 raise
 
-            _logger.debug(f"... got connection {conn} from {addr}")
+            _logger.debug(f'... got connection {conn} from {addr}')
             handler = ConnectionHandler(conn, self._command_handler)
             thread = threading.Thread(target=handler.run)
 
@@ -73,7 +80,7 @@ class Server:
         self.close()
 
     def close(self) -> None:
-        _logger.debug("closing...")
+        _logger.debug('closing...')
 
         if self._socket:
             with suppress(Exception):
@@ -91,6 +98,6 @@ class Server:
     @property
     def port(self) -> int:
         if self._socket is None:
-            raise RuntimeError("Server not running")
+            raise RuntimeError('Server not running')
 
         return self._socket.getsockname()[1]
