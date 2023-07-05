@@ -82,7 +82,7 @@ class Server:
 
         if self._socket:
             with suppress(Exception):  # noqa
-                self._socket.shutdown(socket.SHUT_RDWR) # noqa
+                self._socket.shutdown(socket.SHUT_RDWR)  # noqa
 
             with suppress(Exception):  # noqa
                 self._socket.close()
@@ -98,4 +98,4 @@ class Server:
         if self._socket is None:
             raise RuntimeError("Server not running")
 
-        return self._socket.getsockname()[1] # noqa
+        return self._socket.getsockname()[1]  # noqa
