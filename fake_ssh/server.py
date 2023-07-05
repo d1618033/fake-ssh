@@ -61,7 +61,7 @@ class Server:
                 continue
 
             try:
-                conn, addr = sock.accept()
+                conn, addr = sock.accept()  # noqa
             except OSError as ex:
                 if ex.errno in (errno.EBADF, errno.EINVAL):
                     break
@@ -81,10 +81,10 @@ class Server:
         _logger.debug("closing...")
 
         if self._socket:
-            with suppress(Exception):
-                self._socket.shutdown(socket.SHUT_RDWR)
+            with suppress(Exception):  # noqa
+                self._socket.shutdown(socket.SHUT_RDWR) # noqa
 
-            with suppress(Exception):
+            with suppress(Exception):  # noqa
                 self._socket.close()
 
             self._socket = None
@@ -98,4 +98,4 @@ class Server:
         if self._socket is None:
             raise RuntimeError("Server not running")
 
-        return self._socket.getsockname()[1]
+        return self._socket.getsockname()[1] # noqa

@@ -47,10 +47,10 @@ class ConnectionHandler(paramiko.ServerInterface):
             command = self.command_queues[channel.chanid].get(block=True)
             _logger.debug(f"Channel {channel.chanid}, executing {command}")
             command_result = self._command_handler(command.decode())
-            channel.sendall(command_result.stdout)
-            channel.sendall_stderr(command_result.stderr)
+            channel.sendall(command_result.stdout.encode())
+            channel.sendall_stderr(command_result.stderr.encode())
             channel.send_exit_status(command_result.returncode)
-        except Exception:  # pylint: disable=broad-except
+        except Exception:  # pylint: disable=broad-except # noqa
             _logger.exception(f"Error handling client (channel: {channel})")
         finally:
             try:
