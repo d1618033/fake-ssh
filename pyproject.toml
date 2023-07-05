@@ -17,7 +17,7 @@ keywords = [
 ]
 
 [tool.poetry.scripts]
-echo_server = "fakessh.echo_server:main"
+echo_server = "fakessh.__main__:main"
 
 [tool.poetry.dependencies]
 python = "^3.7"
