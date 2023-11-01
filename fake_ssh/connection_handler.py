@@ -36,7 +36,7 @@ class ConnectionHandler(paramiko.ServerInterface):
             thread = threading.Thread(
                 target=self._handle_client, args=(channel,)
             )
-            thread.setDaemon(True)
+            thread.deamon = True
             thread.start()
 
     def _handle_client(self, channel: paramiko.Channel) -> None:

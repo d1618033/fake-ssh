@@ -39,7 +39,7 @@ class Server:
     def run_non_blocking(self) -> None:
         self._create_socket()
         self._thread = threading.Thread(target=self._run)
-        self._thread.setDaemon(True)
+        self._thread.deamon = True
         self._thread.start()
 
     def _create_socket(self) -> None:
@@ -70,7 +70,7 @@ class Server:
             _logger.debug(f"... got connection {conn} from {addr}")
             handler = ConnectionHandler(conn, self._command_handler)
             thread = threading.Thread(target=handler.run)
-            thread.setDaemon(True)
+            thread.deamon = True
             thread.start()
 
     def __exit__(self, *exc_info: Tuple[Any]) -> None:
